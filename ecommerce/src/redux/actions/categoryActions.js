@@ -5,10 +5,9 @@ export const getCategories = async () => {
     const result = await axios.get(
       "https://fakestoreapi.com/products/categories"
     );
-    result.then((res) => {
-      return res;
-    });
+
+    return result;
   } catch (error) {
-    console.log(error);
+    console.log("Something went wrong" + error);
   }
 };

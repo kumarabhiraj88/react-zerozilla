@@ -1,18 +1,26 @@
 import React from "react";
 import Header from "./components/header";
+import Home from "./components/home/index.js";
+import Products from "./components/products/index.js";
+import ProductDetails from "./components/products/product-details.js";
+import Cart from "./components/cart/index.js";
+import Profile from "./components/user/profile.js";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Container } from "react-bootstrap";
 
 function App() {
   return (
-    <div className="App">
+    <div className="d-flex flex-column site-container">
       <BrowserRouter>
         <Header />
         <main>
           <Container>
             <Routes>
-              <Route exact path="/" element="" />
-              <Route exact path="/products" element="" />
+              <Route exact path="/" element={<Home />} />
+              <Route path="/products/:category" element={<Products />} />
+              <Route path="/product/:productId" element={<ProductDetails />} />
+              <Route path="/cart" element={<Cart />} />
+              <Route path="/profile" element={<Profile />} />
             </Routes>
           </Container>
         </main>

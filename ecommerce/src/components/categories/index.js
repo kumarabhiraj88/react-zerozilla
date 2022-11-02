@@ -1,8 +1,7 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategories } from "../../redux/actions/categoryActions";
-import { Row, Col, Card, Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Row, Col, Card } from "react-bootstrap";
 import * as categoryTypes from "../../redux/types/categoryTypes.js";
 
 const Categories = (props) => {
@@ -24,7 +23,7 @@ const Categories = (props) => {
         payload: error.message,
       });
     }
-  }, []);
+  }, [dispatch]);
 
   const { categoryList } = useSelector((state) => state.categoryReducer);
 

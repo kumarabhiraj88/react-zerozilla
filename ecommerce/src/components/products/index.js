@@ -1,16 +1,21 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Row, Col, Card, Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { useParams } from "react-router-dom";
+//import { useNavigate } from "react-router-dom";
 import { getProducts } from "../../redux/actions/productActions.js";
 import Rating from "./rating.js";
 import * as productTypes from "../../redux/types/productTypes.js";
+import { addToCart, getCartTotal } from "../../redux/reducers/cartSlice.js";
 
 const Products = (props) => {
   const dispatch = useDispatch();
 
-  const [filteredProducts, setFilteredProducts] = useState([]);
+  const cart = useSelector((state) => state.cartReducer);
+
+  useEffect(() => {
+    dispatch(getCartTotal());
+  }, [cart, dispatch]);
 
   useEffect(() => {
     dispatch({ type: productTypes.PRODUCT_FETCH_REQUEST });
@@ -28,9 +33,15 @@ const Products = (props) => {
         payload: error.message,
       });
     }
-  }, []);
+  }, [dispatch]);
 
   const { productList } = useSelector((state) => state.productReducer);
+
+  //const navigate = useNavigate();
+  const handleAddToCart = (product) => {
+    dispatch(addToCart(product));
+    //navigate("/cart");
+  };
 
   return (
     <>
@@ -40,10 +51,27 @@ const Products = (props) => {
           <Row>
             {productList
               .filter((res) => {
-                if (props.category === "") {
+                // if (
+                //   res.title
+                //     .toLowerCase()
+                //     .includes(props.searchData.toLowerCase())
+                // ) {
+                //   return res;
+                // }
+                if (
+                  props.searchData === "" &&
+                  res.category.includes(props.category)
+                ) {
                   return res;
-                } else if (res.category.includes(props.category)) {
+                } else if (
+                  props.searchData !== "" &&
+                  res.title
+                    .toLowerCase()
+                    .includes(props.searchData.toLowerCase())
+                ) {
                   return res;
+                } else {
+                  return "";
                 }
               })
               .map((product) => (
@@ -58,14 +86,19 @@ const Products = (props) => {
                     </Link>
                     <Card.Body>
                       <Link to={`/product/${product.id}`}>
-                        <Card.Title>Card Title</Card.Title>
+                        <Card.Title>{product.title}</Card.Title>
                       </Link>
                       <Rating
                         rating={product.rating.rate}
                         count={product.rating.count}
                       />
                       <Card.Text>${product.price}</Card.Text>
-                      <Button variant="primary">Add to cart</Button>
+                      <Button
+                        onClick={() => handleAddToCart(product)}
+                        variant="primary"
+                      >
+                        Add to cart
+                      </Button>
                     </Card.Body>
                   </Card>
                 </Col>

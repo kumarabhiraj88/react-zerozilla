@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import Categories from "../categories";
 import Products from "../products/index.js";
 
-const Home = () => {
+const Home = (props) => {
   const [category, setCategory] = useState("");
   const filteredProducts = (category) => {
     setCategory(category);
@@ -11,7 +11,7 @@ const Home = () => {
   return (
     <>
       <Categories onClick={filteredProducts} />
-      <Products category={category} />
+      <Products category={category} searchData={props.searchData} />
     </>
   );
 };

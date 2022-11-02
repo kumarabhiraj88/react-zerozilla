@@ -84,7 +84,10 @@ const Header = (props) => {
                   {cartTotalQuantity}
                 </Badge>
               </Nav.Link>
-              <NavDropdown title="Logged User" id="navbarScrollingDropdown">
+              <NavDropdown
+                title={<FaUserCircle />}
+                id="navbarScrollingDropdown"
+              >
                 <NavDropdown.Item href="#action3">My Profile</NavDropdown.Item>
                 {/* <NavDropdown.Divider />
                 <NavDropdown.Item href="#action5">Logout</NavDropdown.Item> */}
